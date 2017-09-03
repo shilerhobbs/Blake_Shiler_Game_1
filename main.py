@@ -16,6 +16,11 @@ class Game:
         self.clock = pg.time.Clock()
         self.load_data()
         self.state = 'intro'
+        self.all_sprites = pg.sprite.LayeredUpdates()
+        self.walls = pg.sprite.Group()
+        self.event = pg.sprite.Group()
+        self.player = Player(self, 0, 0)
+        self.cursor = Cursor(self, 0, 0)
 
     def draw_text(self, text, font_name, size, color, x, y, align="topleft"):
         font = pg.font.Font(font_name, size)
@@ -42,7 +47,8 @@ class Game:
         self.all_sprites = pg.sprite.LayeredUpdates()
         self.walls = pg.sprite.Group()
         self.event = pg.sprite.Group()
-
+        # self.player = Player(self, 0, 0)
+        # self.cursor = Cursor(self, 0, 0)
 
         self.map = TiledMap(path.join(self.map_folder, play_map_background))
         self.map_forground = TiledMap(path.join(self.map_folder, play_map_forground))
@@ -56,7 +62,9 @@ class Game:
             if tile_object.name == 'player':
 
                 self.player = Player(self, obj_center.x, obj_center.y)
+            if tile_object.name == 'cursor':
 
+                self.cursor = Cursor(self, obj_center.x, obj_center.y)
             if tile_object.name == 'wall':
 
                 Obstacle(self, tile_object.x, tile_object.y,
@@ -157,6 +165,7 @@ class Game:
     def events(self):
         # catch all events here
 
+
         if self.player.map_change:
 
             global back, play_map_background
@@ -166,9 +175,15 @@ class Game:
             self.loading = True
             self.new()
 
+        if self.cursor.menu_change:
 
-            # self.map = TiledMap(path.join(self.map_folder, play_map_background))
-            # self.map_img = self.map.make_map()
+            back = map_dict[self.cursor.menu_change_dest]
+            play_map_background = back
+            self.cursor.menu_change = False
+            self.loading = True
+            self.new()
+        # self.map = TiledMap(path.join(self.map_folder, play_map_background))
+        # self.map_img = self.map.make_map()
 
 
         for event in pg.event.get():

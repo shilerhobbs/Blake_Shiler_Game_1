@@ -26,6 +26,10 @@ GRIDHEIGHT = HEIGHT / TILESIZE
 
 # Player settings
 PLAYER_SPEED = 100
+
+CURSOR_IMG = 'cursor_medium.png'
+CURSOR_HIT_RECT = pg.Rect(0, 0, 32, 32)
+
 PLAYER_IMG_1 = 'female_front.png'
 PLAYER_IMG_2 = 'female_front_l.png'
 PLAYER_IMG_3 = 'female_front_r.png'
@@ -48,7 +52,7 @@ map_dict = {'home_interior':'home_interior.tmx','home_exterior':'home_exterior.t
             'town_shop':'town_shop.tmx','town_house_1':'town_house_1.tmx',
             'town_house_2':'town_house_2.tmx','town_mayor_house':'town_mayor_house.tmx',
             'wild_field_1':'wild_field_1.tmx','wild_field_2':'wild_field_2.tmx',
-            'dungeon_1_floor_1':'dungeon_1_floor_1.tmx'}
+            'dungeon_1_floor_1':'dungeon_1_floor_1.tmx','menu_test':'menu_test.tmx'}
 
 
 background = ['Tile Layer 1','Tile Layer 2','Tile Layer 3']

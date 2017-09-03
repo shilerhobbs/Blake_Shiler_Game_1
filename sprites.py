@@ -54,6 +54,29 @@ def collide_with_event(sprite, group, dir):
             # sprite.hit_rect.centery = sprite.pos.y
 
 
+def collide_with_menu_event(sprite, group, dir):
+    if dir == 'x':
+        hits = pg.sprite.collide_rect(sprite,group)
+        if hits:
+
+
+
+            sprite.menu_change = True
+            sprite.menu_change_dest = group.destination
+            sprite.select = False
+            # play_map_background = group.destination
+            # sprite.vel.x = 0
+            # sprite.hit_rect.centerx = sprite.pos.x
+
+    if dir == 'y':
+        hits = pg.sprite.collide_rect(sprite,group)
+        if hits:
+
+
+            sprite.menu_change = True
+            sprite.menu_change_dest = group.destination
+            sprite.select = False
+
 
 
 class Player(pg.sprite.Sprite):
@@ -179,6 +202,73 @@ class Player(pg.sprite.Sprite):
 
 
 
+class Cursor(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self._layer = PLAYER_LAYER
+        self.groups = game.all_sprites
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        game_folder = path.dirname(__file__)
+        img_folder = path.join(game_folder, 'img')
+        self.select = False
+        self.direction = None
+        self.menu_change = False
+        self.menu_destination = None
+        self.speed = PLAYER_SPEED
+        self.vel = vec(0, 0)
+        self.pos = vec(x, y)
+
+        self.image = pg.image.load(path.join(img_folder, CURSOR_IMG))
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+        self.hit_rect = CURSOR_HIT_RECT
+        self.hit_rect.center = self.rect.center
+
+
+
+
+    def get_keys(self):
+        self.vel = vec(0, 0)
+        self.speed = PLAYER_SPEED
+
+        if not self.game.loading:
+
+            keys = pg.key.get_pressed()
+
+            if keys[pg.K_LSHIFT]:
+                self.speed = PLAYER_SPEED * 2
+            if keys[pg.K_LEFT] or keys[pg.K_a]:
+                self.vel = vec(-self.speed,0)
+            if keys[pg.K_RIGHT] or keys[pg.K_d]:
+                self.vel = vec(self.speed,0)
+            if keys[pg.K_UP] or keys[pg.K_w]:
+                self.vel = vec(0, -self.speed)
+            if keys[pg.K_DOWN] or keys[pg.K_s]:
+                self.vel = vec(0, self.speed)
+            else:
+                pass
+
+    def update(self):
+        self.rect = self.image.get_rect()
+        self.rect.center = self.pos
+        self.pos += self.vel * self.game.dt
+        self.hit_rect.centerx = self.pos.x
+        collide_with_walls(self, self.game.walls, 'x')
+
+
+
+        if self.select:
+            for event in self.game.event:
+                collide_with_event(self, event, 'x')
+                collide_with_event(self, event, 'y')
+
+
+        self.hit_rect.centery = self.pos.y
+        collide_with_walls(self, self.game.walls, 'y')
+
+
+
+        self.rect.center = self.hit_rect.center
 
 
 
