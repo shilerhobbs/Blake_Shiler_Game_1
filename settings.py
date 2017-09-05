@@ -14,8 +14,8 @@ CYAN = (0, 255, 255)
 ORANGE = (255, 165, 0)
 
 # game settings
-WIDTH = 1024   # 16 * 64 or 32 * 32 or 64 * 16
-HEIGHT = 768  # 16 * 48 or 32 * 24 or 64 * 12
+WIDTH = 480   # 16 * 64 or 32 * 32 or 64 * 16
+HEIGHT = 320  # 16 * 48 or 32 * 24 or 64 * 12         480*320      1920*1280
 FPS = 16
 TITLE = "Blake and Shiler's Game"
 BGCOLOR = BLACK
