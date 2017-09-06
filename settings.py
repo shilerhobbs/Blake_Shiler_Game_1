@@ -90,3 +90,36 @@ state_dict = {}
 # Layers
 WALL_LAYER = 1
 PLAYER_LAYER = 2
+
+
+
+
+###   Battle Backs
+battle_backs = {'Foreset_battleback' : 'Forest_battleback.png','Grasslands_battleback' : 'Grasslands_battleback.png',
+                'Mountains_battleback' : 'Mountains_battleback.png', 'Swamp_battleback' : 'Swamp_battleback.png'}
+
+
+
+
+
+
+###  menu images
+
+menu_imgs = {'battle_menu_back' : 'Battle_menu_back.png', 'attack_button' : 'Attack_button.png',
+            'character_button' : 'Character_button.png', 'continue_button' : 'Continue_button.png',
+             'Credits_button' : 'Credits_button.png', 'Equip_button' : 'Equip_button.png',
+             'Flee_button' : 'Flee_button.png', 'Inventory_button' : 'Inventory_button.png',
+             'Item_button' : 'Item_button.png', 'Journal_button' : 'Journal_button.png',
+             'Quit_button' : 'Quit_button.png', 'Start_button' : 'Start_button.png'}
+
+
+
+
+
+
+
+
+
+
+
+

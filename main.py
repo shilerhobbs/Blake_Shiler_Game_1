@@ -37,8 +37,12 @@ class Game:
         self.title_font = path.join(img_folder, 'rawline-100.ttf')
         self.dim_screen = pg.Surface(self.screen.get_size()).convert_alpha()
         self.dim_screen.fill((0, 0, 0, 180))
-        # self.maps =
-
+        self.menu_imgs = {}
+        self.battle_backs = {}
+        for img in menu_imgs:
+            self.menu_imgs[img] = pg.image.load(path.join(img_folder,menu_imgs[img]))
+        for img in battle_backs:
+            self.battle_backs[img] = pg.image.load(path.join(img_folder, battle_backs[img]))
 
 
 
