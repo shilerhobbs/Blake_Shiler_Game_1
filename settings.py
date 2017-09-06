@@ -80,12 +80,15 @@ play_map_background = back
 play_map_forground = front
 
 
+direction = {'up' : 0, 'down' : 1, 'left' : 2, 'right' : 3}
+
+position = {'top_left' : 0, 'top_right' : 1, 'bottom_left' : 2, 'bottom_right' : 3}
 
 
 
 ####   States
 
-state_dict = {}
+game_states = {'start menu' : 0, 'world map' : 1, 'paused' : 2, 'battle' : 3}
 
 
 
@@ -115,10 +118,11 @@ battle_backs = {'Foreset_battleback' : 'Forest_battleback.png','Grasslands_battl
 menu_imgs = {'battle_menu_back' : 'Battle_menu_back.png', 'attack_button' : 'Attack_button.png',
             'character_button' : 'Character_button.png', 'continue_button' : 'Continue_button.png',
              'Credits_button' : 'Credits_button.png', 'Equip_button' : 'Equip_button.png',
-             'Flee_button' : 'Flee_button.png', 'Inventory_button' : 'Inventory_button.png',
-             'Item_button' : 'Item_button.png', 'Journal_button' : 'Journal_button.png',
+             'Flee_button' : 'Flee_button.png', 'inventory_button' : 'Inventory_button.png',
+             'Item_button' : 'Item_button.png', 'journal_button' : 'Journal_button.png',
              'Quit_button' : 'Quit_button.png', 'Start_button' : 'Start_button.png',
-             'Cursor' : 'Cursor.png', 'Menu_background' : 'Menu_background.png'}
+             'Cursor' : 'Cursor.png', 'Menu_background' : 'Menu_background.png',
+             'small cursor' : 'small_Cursor.png'}
 
 
 

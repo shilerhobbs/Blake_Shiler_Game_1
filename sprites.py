@@ -54,28 +54,24 @@ def collide_with_event(sprite, group, dir):
             # sprite.hit_rect.centery = sprite.pos.y
 
 
-def collide_with_menu_event(sprite, group, dir):
+def collide_with_encounter(sprite, group, dir):
     if dir == 'x':
         hits = pg.sprite.collide_rect(sprite,group)
         if hits:
+            sprite.game.battle.location = group.location
+            sprite.game.game_state = game_states['battle']
 
 
 
-            sprite.menu_change = True
-            sprite.menu_change_dest = group.destination
-            sprite.select = False
-            # play_map_background = group.destination
-            # sprite.vel.x = 0
-            # sprite.hit_rect.centerx = sprite.pos.x
 
     if dir == 'y':
         hits = pg.sprite.collide_rect(sprite,group)
         if hits:
+            sprite.game.battle.location = group.location
+            sprite.game.game_state = game_states['battle']
 
 
-            sprite.menu_change = True
-            sprite.menu_change_dest = group.destination
-            sprite.select = False
+
 
 
 
@@ -191,7 +187,9 @@ class Player(pg.sprite.Sprite):
         for event in self.game.event:
             collide_with_event(self, event, 'x')
             collide_with_event(self, event, 'y')
-
+        for encounter in self.game.encounter:
+            collide_with_encounter(self, encounter, 'x')
+            collide_with_encounter(self, encounter, 'y')
 
         self.hit_rect.centery = self.pos.y
         collide_with_walls(self, self.game.walls, 'y')
@@ -296,3 +294,16 @@ class Event(pg.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         self.destination = destination
+
+class Encounter(pg.sprite.Sprite):
+    def __init__(self, game, x, y, w, h, location):
+        self.groups = game.encounter
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.rect = pg.Rect(x, y, w, h)
+        self.hit_rect = self.rect
+        self.x = x
+        self.y = y
+        self.rect.x = x
+        self.rect.y = y
+        self.location = location
