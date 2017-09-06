@@ -5,6 +5,7 @@ from os import path
 from settings import *
 from sprites import *
 from tilemap import *
+from GUI import *
 
 
 
@@ -19,8 +20,12 @@ class Game:
         self.all_sprites = pg.sprite.LayeredUpdates()
         self.walls = pg.sprite.Group()
         self.event = pg.sprite.Group()
+        self.paused = False
+        self.game_state = 'world map'
+        self.last_game_state = None
         self.player = Player(self, 0, 0)
         self.cursor = Cursor(self, 0, 0)
+        self.pause_screen = PauseScreen(self,self.game_state)
 
     def draw_text(self, text, font_name, size, color, x, y, align="topleft"):
         font = pg.font.Font(font_name, size)
@@ -51,6 +56,7 @@ class Game:
         self.all_sprites = pg.sprite.LayeredUpdates()
         self.walls = pg.sprite.Group()
         self.event = pg.sprite.Group()
+
         # self.player = Player(self, 0, 0)
         # self.cursor = Cursor(self, 0, 0)
 
@@ -100,7 +106,8 @@ class Game:
                              tile_object.y + tile_object.height / 2)
             if tile_object.name == 'player':
                 self.player = Player(self, obj_center.x, obj_center.y)
-
+            if tile_object.name == 'cursor':
+                self.cursor = Cursor(self, obj_center.x, obj_center.y)
             if tile_object.name == 'wall':
                 Obstacle(self, tile_object.x, tile_object.y,
                          tile_object.width, tile_object.height)
@@ -112,6 +119,11 @@ class Game:
 
         self.camera = Camera(self.map.width, self.map.height)
 
+        self.draw_debug = False
+        self.paused = False
+        self.loading = False
+        self.game_state = 'world_map'
+
     def run(self):
         # game loop - set self.playing = False to end the game
         self.playing = True
@@ -120,8 +132,8 @@ class Game:
             self.events()
 
             self.draw()
-            if not self.paused:
-                self.update()
+
+            self.update()
 
     def quit(self):
         pg.quit()
@@ -131,6 +143,12 @@ class Game:
         # update portion of the game loop
         self.all_sprites.update()
         self.camera.update(self.player)
+        if self.paused:
+            self.game_state = 'paused'
+
+
+
+
 
     def draw_grid(self):
         for x in range(0, WIDTH, TILESIZE):
@@ -141,15 +159,24 @@ class Game:
     def draw(self):
         pg.display.set_caption("{:.2f}".format(self.clock.get_fps()))
         self.screen.fill(BGCOLOR)
-        self.screen.blit(self.map_img, self.camera.apply(self.map))
-        # self.draw_grid()
-        for sprite in self.all_sprites:
-            self.screen.blit(sprite.image, self.camera.apply(sprite))
-            if self.draw_debug:
-                pg.draw.rect(self.screen, CYAN, self.camera.apply_rect(sprite.hit_rect), 1)
 
-        # self.screen.blit(self.map_img_forground, self.camera.apply(self.map))
+        if self.game_state == 'world map':
+            self.screen.blit(self.map_img, self.camera.apply(self.map))
+            # self.draw_grid()
+            for sprite in self.all_sprites:
+                self.screen.blit(sprite.image, self.camera.apply(sprite))
+                if self.draw_debug:
+                    pg.draw.rect(self.screen, CYAN, self.camera.apply_rect(sprite.hit_rect), 1)
 
+            # self.screen.blit(self.map_img_forground, self.camera.apply(self.map))
+
+        if self.game_state == 'paused':
+            self.screen.blit(self.pause_screen.back_ground,(0,0))
+            self.screen.blit(self.pause_screen.button_bl,self.pause_screen.button_bl_loc)
+            self.screen.blit(self.pause_screen.button_br, self.pause_screen.button_br_loc)
+            self.screen.blit(self.pause_screen.button_tl, self.pause_screen.button_tl_loc)
+            self.screen.blit(self.pause_screen.button_tr, self.pause_screen.button_tr_loc)
+            self.screen.blit(self.pause_screen.cursor,self.pause_screen.cursor_loc)
 
 
 
@@ -161,9 +188,9 @@ class Game:
             for event in self.event:
                 pg.draw.rect(self.screen, ORANGE, self.camera.apply_rect(event.rect), 1)
 
-        if self.paused:
-            self.screen.blit(self.dim_screen, (0, 0))
-            self.draw_text("Paused", self.title_font, 105, RED, WIDTH / 2, HEIGHT / 2, align="center")
+        # if self.paused:
+        #     self.screen.blit(self.dim_screen, (0, 0))
+        #     self.draw_text("Paused", self.title_font, 105, RED, WIDTH / 2, HEIGHT / 2, align="center")
         pg.display.flip()
 
     def events(self):
@@ -199,7 +226,13 @@ class Game:
                 if event.key == pg.K_h:
                     self.draw_debug = not self.draw_debug
                 if event.key == pg.K_p:
-                    self.paused = not self.paused
+                    if not self.paused:
+                        self.last_game_state = self.game_state
+                        self.game_state = 'paused'
+                        self.paused = True
+                    if self.paused:
+                        self.game_state = self.last_game_state
+                        self.paused = False
 
 
     def show_start_screen(self):

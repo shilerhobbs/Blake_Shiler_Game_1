@@ -24,6 +24,13 @@ TILESIZE = 32
 GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
 
+
+
+
+
+
+
+
 # Player settings
 PLAYER_SPEED = 100
 
@@ -110,7 +117,8 @@ menu_imgs = {'battle_menu_back' : 'Battle_menu_back.png', 'attack_button' : 'Att
              'Credits_button' : 'Credits_button.png', 'Equip_button' : 'Equip_button.png',
              'Flee_button' : 'Flee_button.png', 'Inventory_button' : 'Inventory_button.png',
              'Item_button' : 'Item_button.png', 'Journal_button' : 'Journal_button.png',
-             'Quit_button' : 'Quit_button.png', 'Start_button' : 'Start_button.png'}
+             'Quit_button' : 'Quit_button.png', 'Start_button' : 'Start_button.png',
+             'Cursor' : 'Cursor.png', 'Menu_background' : 'Menu_background.png'}
 
 
 
