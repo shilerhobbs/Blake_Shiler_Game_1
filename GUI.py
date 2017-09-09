@@ -52,7 +52,7 @@ class MainMenu():
         if keys[pg.K_SPACE]:
             self.select = True
         else:
-            pass
+            self.select = False
 
 
     def update(self):
@@ -61,6 +61,12 @@ class MainMenu():
         if self.select:
             if self.position == position['top_left']:
                 self.game.game_state = game_states['world map']
+
+            if self.position == position['bottom_right']:
+                self.game.previous_game_state = self.game.game_state
+                self.game.game_state = game_states['quit_box']
+            else:
+                pass
 
         if self.direction == direction['left']:
             if self.position == position['top_right']:
@@ -154,14 +160,18 @@ class PauseScreen():
         if keys[pg.K_SPACE]:
             self.select = True
         else:
-            pass
+            self.select = False
 
 
     def update(self):
         self.get_keys()
 
         if self.select:
-            pass
+            if self.position == position['bottom_right']:
+                self.game.previous_game_state = self.game.game_state
+                self.game.game_state = game_states['quit_box']
+            else:
+                pass
 
         if self.direction == direction['left']:
             if self.position == position['top_right']:
@@ -237,13 +247,13 @@ class BattleScreen():
         self.layer_2 = game.menu_imgs['battle_menu_back']
         self.layer_2_loc = (0,264)
         self.button_1 = game.menu_imgs['attack_button']
-        self.button_1_loc = (-3,261)
+        self.button_1_loc = (4,268)
         self.button_2 = game.menu_imgs['Item_button']
-        self.button_2_loc = (114,261)
+        self.button_2_loc = (122,268)
         self.button_3 = game.menu_imgs['Equip_button']
-        self.button_3_loc = (-3,287)
+        self.button_3_loc = (4,294)
         self.button_4 = game.menu_imgs['Flee_button']
-        self.button_4_loc = (114,287)
+        self.button_4_loc = (122,294)
 
 
 
@@ -328,6 +338,66 @@ class BattleScreen():
 
         else:
             pass
+
+
+
+
+class ConfirmBox():
+    def __init__(self, game):
+        self.game = game
+        game_folder = path.dirname(__file__)
+        img_folder = path.join(game_folder, 'img')
+        self.background = game.menu_imgs['confirm_background']
+        self.background_loc = (150,121)
+        self.yes_button = game.menu_imgs['yes button']
+        self.yes_button_loc = (162,162)
+        self.no_button = game.menu_imgs['no button']
+        self.no_button_loc = (247,162)
+        self.cursor = game.menu_imgs['small cursor']
+        self.cursor_left = (147,169)
+        self.cursor_right = (237,169)
+        self.cursor_pos = self.cursor_right
+        self.positon = position['left']
+        self.direction = None
+        self.select = False
+
+
+
+
+    def get_keys(self):
+        keys = pg.key.get_pressed()
+
+        if keys[pg.K_LEFT] or keys[pg.K_a]:
+            self.direction = direction['left']
+        if keys[pg.K_RIGHT] or keys[pg.K_d]:
+            self.direction = direction['right']
+        if keys[pg.K_SPACE]:
+            self.select = True
+        else:
+            self.select = False
+
+
+
+    def update(self):
+        self.get_keys()
+        print(self.game.game_state)
+        if self.select:
+            if self.cursor_pos == self.cursor_left:
+                if self.game.game_state == game_states['quit_box']:
+                    pg.quit()
+            if self.cursor_pos == self.cursor_right:
+                if self.game.game_state == game_states['quit_box']:
+                    self.game.game_state = self.game.previous_game_state
+
+        if self.direction == direction['left']:
+            self.cursor_pos = self.cursor_left
+
+        if self.direction == direction['right']:
+            self.cursor_pos = self.cursor_right
+
+        else:
+            pass
+
 
 
 

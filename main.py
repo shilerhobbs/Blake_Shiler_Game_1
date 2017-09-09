@@ -23,11 +23,14 @@ class Game:
         self.encounter = pg.sprite.Group()
         self.paused = False
         self.game_state = game_states['start menu']
-        self.last_game_state = None
+        self.previous_game_state = None
+        self.confirm_box_quit_use = False
+        self.confirm_box_quit_ans = None
         self.player = Player(self, 0, 0)
         self.cursor = Cursor(self, 0, 0)
         self.main_menu = MainMenu(self,self.game_state)
         self.pause_screen = PauseScreen(self,self.game_state)
+        self.confirm_box_quit = ConfirmBox(self)
         self.battle = BattleScreen(self)
 
     def draw_text(self, text, font_name, size, color, x, y, align="topleft"):
@@ -101,7 +104,14 @@ class Game:
         self.paused = False
         self.loading = False
         self.game_state = game_states['start menu']
-    def map(self):
+    def world_map(self):
+
+        self.all_sprites = pg.sprite.LayeredUpdates()
+        self.walls = pg.sprite.Group()
+        self.event = pg.sprite.Group()
+        self.encounter = pg.sprite.Group()
+        # self.player = Player(self, 0, 0)
+        # self.cursor = Cursor(self, 0, 0)
 
         self.map = TiledMap(path.join(self.map_folder, play_map_background))
         self.map_forground = TiledMap(path.join(self.map_folder, play_map_forground))
@@ -127,8 +137,8 @@ class Game:
 
             if tile_object.name == 'encounter':
                 Encounter(self, tile_object.x, tile_object.y,
-                      tile_object.width, tile_object.height,
-                      tile_object.properties['location'])
+                          tile_object.width, tile_object.height,
+                          tile_object.properties['location'])
 
         self.camera = Camera(self.map.width, self.map.height)
 
@@ -154,7 +164,8 @@ class Game:
 
     def update(self):
         # update portion of the game loop
-
+        if self.game_state == game_states['quit_box']:
+            self.confirm_box_quit.update()
         if self.paused:
             self.game_state = game_states['paused']
             self.pause_screen.update()
@@ -181,6 +192,11 @@ class Game:
     def draw(self):
         pg.display.set_caption("{:.2f}".format(self.clock.get_fps()))
         self.screen.fill(BGCOLOR)
+        if self.game_state == game_states['quit_box']:
+            self.screen.blit(self.confirm_box_quit.background,self.confirm_box_quit.background_loc)
+            self.screen.blit(self.confirm_box_quit.yes_button, self.confirm_box_quit.yes_button_loc)
+            self.screen.blit(self.confirm_box_quit.no_button, self.confirm_box_quit.no_button_loc)
+            self.screen.blit(self.confirm_box_quit.cursor,self.confirm_box_quit.cursor_pos)
 
         if self.game_state == game_states['start menu']:
             self.screen.blit(self.main_menu.back_ground,(0,0))
@@ -247,7 +263,7 @@ class Game:
             play_map_background = back
             self.player.map_change = False
             self.loading = True
-            self.new()
+            self.world_map()
 
         if self.cursor.menu_change:
 
@@ -269,13 +285,14 @@ class Game:
                 if event.key == pg.K_h:
                     self.draw_debug = not self.draw_debug
                 if event.key == pg.K_p:
-                    if not self.paused:
-                        self.last_game_state = self.game_state
-                        self.game_state = game_states['paused']
-                        self.paused = True
-                    elif self.paused:
-                        self.game_state = self.last_game_state
-                        self.paused = False
+                    if not self.game_state == game_states['start menu']:
+                        if not self.paused:
+                            self.last_game_state = self.game_state
+                            self.game_state = game_states['paused']
+                            self.paused = True
+                        elif self.paused:
+                            self.game_state = self.last_game_state
+                            self.paused = False
 
 
     def show_start_screen(self):

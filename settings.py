@@ -82,13 +82,15 @@ play_map_forground = front
 
 direction = {'up' : 0, 'down' : 1, 'left' : 2, 'right' : 3}
 
-position = {'top_left' : 0, 'top_right' : 1, 'bottom_left' : 2, 'bottom_right' : 3}
+position = {'top_left' : 0, 'top_right' : 1, 'bottom_left' : 2, 'bottom_right' : 3,
+            'left' : 4, 'right' : 5}
 
 
 
 ####   States
 
-game_states = {'start menu' : 0, 'world map' : 1, 'paused' : 2, 'battle' : 3}
+game_states = {'start menu' : 0, 'world map' : 1, 'paused' : 2, 'battle' : 3,
+               'quit_box' : 4}
 
 
 
@@ -122,7 +124,8 @@ menu_imgs = {'battle_menu_back' : 'Battle_menu_back.png', 'attack_button' : 'Att
              'Item_button' : 'Item_button.png', 'journal_button' : 'Journal_button.png',
              'Quit_button' : 'Quit_button.png', 'Start_button' : 'Start_button.png',
              'Cursor' : 'Cursor.png', 'Menu_background' : 'Menu_background.png',
-             'small cursor' : 'small_Cursor.png'}
+             'small cursor' : 'small_Cursor.png', 'confirm_background' : 'confirm_box.png',
+             'no button' : 'no_button.png', 'yes button' : 'yes_button.png'}
 
 
 
