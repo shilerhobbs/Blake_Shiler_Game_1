@@ -14,8 +14,8 @@ CYAN = (0, 255, 255)
 ORANGE = (255, 165, 0)
 
 # game settings
-WIDTH = 1024   # 16 * 64 or 32 * 32 or 64 * 16
-HEIGHT = 768  # 16 * 48 or 32 * 24 or 64 * 12
+WIDTH = 480   # 16 * 64 or 32 * 32 or 64 * 16
+HEIGHT = 320  # 16 * 48 or 32 * 24 or 64 * 12         480*320      1920*1280
 FPS = 16
 TITLE = "Blake and Shiler's Game"
 BGCOLOR = BLACK
@@ -24,8 +24,19 @@ TILESIZE = 32
 GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
 
+
+
+
+
+
+
+
 # Player settings
 PLAYER_SPEED = 100
+
+CURSOR_IMG = 'cursor_medium.png'
+CURSOR_HIT_RECT = pg.Rect(0, 0, 32, 32)
+
 PLAYER_IMG_1 = 'female_front.png'
 PLAYER_IMG_2 = 'female_front_l.png'
 PLAYER_IMG_3 = 'female_front_r.png'
@@ -48,7 +59,7 @@ map_dict = {'home_interior':'home_interior.tmx','home_exterior':'home_exterior.t
             'town_shop':'town_shop.tmx','town_house_1':'town_house_1.tmx',
             'town_house_2':'town_house_2.tmx','town_mayor_house':'town_mayor_house.tmx',
             'wild_field_1':'wild_field_1.tmx','wild_field_2':'wild_field_2.tmx',
-            'dungeon_1_floor_1':'dungeon_1_floor_1.tmx'}
+            'dungeon_1_floor_1':'dungeon_1_floor_1.tmx','menu_test':'menu_test.tmx'}
 
 
 background = ['Tile Layer 1','Tile Layer 2','Tile Layer 3']
@@ -69,14 +80,21 @@ play_map_background = back
 play_map_forground = front
 
 
+direction = {'up' : 0, 'down' : 1, 'left' : 2, 'right' : 3}
+
+position = {'top_left' : 0, 'top_right' : 1, 'bottom_left' : 2, 'bottom_right' : 3,
+            'left' : 4, 'right' : 5}
+
+
 
 ####   States
 
-state_dict = {}
+game_states = {'start menu' : 0, 'world map' : 1, 'paused' : 2, 'battle' : 3,
+               'quit_box' : 4}
 
 
 
-
+#### githib test
 
 
 
@@ -84,3 +102,39 @@ state_dict = {}
 # Layers
 WALL_LAYER = 1
 PLAYER_LAYER = 2
+
+
+
+
+###   Battle Backs
+battle_backs = {'Foreset_battleback' : 'Forest_battleback.png','Grasslands_battleback' : 'Grasslands_battleback.png',
+                'Mountains_battleback' : 'Mountains_battleback.png', 'Swamp_battleback' : 'Swamp_battleback.png'}
+
+
+
+
+
+
+###  menu images
+
+menu_imgs = {'battle_menu_back' : 'Battle_menu_back.png', 'attack_button' : 'Attack_button.png',
+            'character_button' : 'Character_button.png', 'continue_button' : 'Continue_button.png',
+             'Credits_button' : 'Credits_button.png', 'Equip_button' : 'Equip_button.png',
+             'Flee_button' : 'Flee_button.png', 'inventory_button' : 'Inventory_button.png',
+             'Item_button' : 'Item_button.png', 'journal_button' : 'Journal_button.png',
+             'Quit_button' : 'Quit_button.png', 'Start_button' : 'Start_button.png',
+             'Cursor' : 'Cursor.png', 'Menu_background' : 'Menu_background.png',
+             'small cursor' : 'small_Cursor.png', 'confirm_background' : 'confirm_box.png',
+             'no button' : 'no_button.png', 'yes button' : 'yes_button.png'}
+
+
+
+
+
+
+
+
+
+
+
+
